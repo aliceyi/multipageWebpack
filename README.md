@@ -28,8 +28,10 @@ app
 --webpack.config.js
 --package.json
 
+
 #### 创建 webpack.config.js
 根目录创建 webpack.config.js
+
 引入本次需要的文件
 ```
 const webpack = require('webpack')
@@ -42,6 +44,7 @@ const path = require('path')
 
 ```
 创建BaseConfig,多页面基础配置
+#### webpack modules
 ```
 const BaseConfig = {
     entry: ['jquery'], // 第三方
@@ -202,7 +205,7 @@ pages
 ----index.js
 ----index.html
 static
---css
+--stylus
 ----ModalA.styl
 ----ModalB.styl
 
@@ -239,9 +242,77 @@ var app = new Vue({
 })
 
 ```
+static/stylus/ModalA.styl
+```
+.ModalA {
+    font-size: 40px;
+}
+```
 
-#### webpack modules 
+ModalB.html Pc项目中引入Vue
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <img src="../../assets/imgs/elephant.png" data-src="../../assets/imgs/elephant.png" alt="">
+    <div id="app" class="ModalB">
+        {{ message }}
+    </div>
+</body>
+</html>
+```
+ModalB/index.js
+```
+import '../../static/stylus/ModalB.styl'
 
+var app = new Vue({
+    el: '#app',
+    data: function() {
+        return {
+            message: 'Hello ModalB'
+        }
+    }
+})
+
+```
+static/stylus/ModalB.styl
+```
+.ModalB {
+    color: #ccc;
+}
+```
 #### 如何运行项目 webpack-dev-server
+
+package.json -> script 加入 
+
+```
+"build": "webpack --mode production",
+"server": "webpack-dev-server --mode development --open"
+```
+
+运行 npm run server 
+
+访问
+http://localhost:9090/a
+
+引用到的
+@babel/core @babel/preset-env babel-loader 
+clean-webpack-plugin
+css-loader 
+file-loader
+url-loader
+html-loader
+html-webpack-plugin
+mini-css-extract-plugin
+style-loader
+stylus stylus-loader
+webpack webpack-merge webpack-dev-server
 
 
